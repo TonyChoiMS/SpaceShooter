@@ -17,6 +17,7 @@ public class EnemyAI : MonoBehaviour {
 
     Transform m_trPlayer;       // player transfrom
     Transform m_trEnemy;        // Enemy transform
+    Animator animator;
 
     public float m_flAttackDist = 5.0f;
     public float m_flTraceDist = 10.0f;
@@ -26,6 +27,9 @@ public class EnemyAI : MonoBehaviour {
     WaitForSeconds ws;
 
     MoveAgent m_moveAgent;
+
+    readonly int hashMove = Animator.StringToHash("IsMove");
+    readonly int hashSpeed = Animator.StringToHash("Speed");
 
     void Awake()
     {
@@ -37,6 +41,7 @@ public class EnemyAI : MonoBehaviour {
 
         m_trEnemy = GetComponent<Transform>();
         m_moveAgent = GetComponent<MoveAgent>();
+        animator = GetComponent<Animator>();
 
         ws = new WaitForSeconds(0.3f);
     }
@@ -81,12 +86,19 @@ public class EnemyAI : MonoBehaviour {
             switch (state)
             {
                 case State.PATROL:
+                    m_moveAgent.Patrolling = true;
+                    animator.SetBool(hashMove, true);
                     break;
                 case State.TRACE:
+                    m_moveAgent.traceTarget = m_trPlayer.position;
+                    animator.SetBool(hashMove, true);
                     break;
                 case State.ATTACK:
+                    m_moveAgent.Stop();
+                    animator.SetBool(hashMove, false);
                     break;
                 case State.DIE:
+                    m_moveAgent.Stop();
                     break;
             }
         }
@@ -99,6 +111,6 @@ public class EnemyAI : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+        animator.SetFloat(hashSpeed, m_moveAgent.speed);
 	}
 }
