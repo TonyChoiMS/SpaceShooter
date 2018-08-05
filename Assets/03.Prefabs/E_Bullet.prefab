@@ -40,9 +40,9 @@ GameObject:
   - component: {fileID: 114276365490016698}
   - component: {fileID: 135762224719282022}
   - component: {fileID: 96192793444228420}
-  - component: {fileID: 114849241859809802}
+  - component: {fileID: 75846311578939484}
   m_Layer: 0
-  m_Name: Bullet
+  m_Name: E_Bullet
   m_TagString: BULLET
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -132,6 +132,17 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!75 &75846311578939484
+ConstantForce:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1516092267444544}
+  m_Enabled: 1
+  m_Force: {x: 0, y: 0, z: 0}
+  m_RelativeForce: {x: 0, y: 0, z: 100}
+  m_Torque: {x: 0, y: 0, z: 0}
+  m_RelativeTorque: {x: 0, y: 0, z: 0}
 --- !u!96 &96192793444228420
 TrailRenderer:
   serializedVersion: 2
@@ -251,19 +262,6 @@ TrailRenderer:
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
 --- !u!114 &114276365490016698
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1516092267444544}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: daa2a92a3b2604567b653c1cb71a1bca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 20
-  speed: 1000
---- !u!114 &114849241859809802
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}

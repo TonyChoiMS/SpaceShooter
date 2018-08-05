@@ -27,9 +27,12 @@ public class EnemyAI : MonoBehaviour {
     WaitForSeconds ws;
 
     MoveAgent m_moveAgent;
+    EnemyFire enemyFire;
 
     readonly int hashMove = Animator.StringToHash("IsMove");
     readonly int hashSpeed = Animator.StringToHash("Speed");
+    readonly int hashDie = Animator.StringToHash("Die");
+    readonly int hashDieIdx = Animator.StringToHash("DieIdx");
 
     void Awake()
     {
@@ -42,6 +45,8 @@ public class EnemyAI : MonoBehaviour {
         m_trEnemy = GetComponent<Transform>();
         m_moveAgent = GetComponent<MoveAgent>();
         animator = GetComponent<Animator>();
+
+        enemyFire = GetComponent<EnemyFire>();
 
         ws = new WaitForSeconds(0.3f);
     }
@@ -86,19 +91,29 @@ public class EnemyAI : MonoBehaviour {
             switch (state)
             {
                 case State.PATROL:
+                    enemyFire.isFire = false;
                     m_moveAgent.Patrolling = true;
                     animator.SetBool(hashMove, true);
                     break;
                 case State.TRACE:
+                    enemyFire.isFire = false;
                     m_moveAgent.traceTarget = m_trPlayer.position;
                     animator.SetBool(hashMove, true);
                     break;
                 case State.ATTACK:
                     m_moveAgent.Stop();
                     animator.SetBool(hashMove, false);
+                    if (enemyFire.isFire == false)
+                        enemyFire.isFire = true;
                     break;
                 case State.DIE:
+                    m_bIsDie = true;
+                    enemyFire.isFire = false;
                     m_moveAgent.Stop();
+                    animator.SetInteger(hashDieIdx, Random.Range(0, 3));
+                    animator.SetTrigger(hashDie);
+                    GetComponent<CapsuleCollider>().enabled = false;
+
                     break;
             }
         }
