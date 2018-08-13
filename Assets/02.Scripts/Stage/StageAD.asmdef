@@ -1,6 +1,8 @@
 {
     "name": "StageAD",
-    "references": [],
+    "references": [
+        "CommonAD"
+    ],
     "optionalUnityReferences": [],
     "includePlatforms": [],
     "excludePlatforms": [],

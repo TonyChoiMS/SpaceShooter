@@ -60,7 +60,7 @@ public class FireCtrl : MonoBehaviour
     void Fire()
     {
         // 셰이크 효과 호출
-        StartCoroutine(shake.ShakeCamera());
+        StartCoroutine(shake.ShakeCamera(0.1f, 0.2f, 0.5f));
         //Bullet 프리팹을 동적으로 생성
         Instantiate(bullet, firePos.position, firePos.rotation);
         //파티클 실행
