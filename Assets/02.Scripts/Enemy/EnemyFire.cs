@@ -53,7 +53,6 @@ public class EnemyFire : MonoBehaviour {
         wsReload = new WaitForSeconds(reloadTime);
         //MuzzleFlash를 비활성화
         muzzleFlash.enabled = false;
-
     }
 	
     void Update()

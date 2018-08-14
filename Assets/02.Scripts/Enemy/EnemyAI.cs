@@ -61,8 +61,9 @@ public class EnemyAI : MonoBehaviour {
 
         //코루틴의 지연시간 생성
         ws = new WaitForSeconds(0.3f);
-
+        //Cycle Offset 값을 불규칙하게 변경
         animator.SetFloat(hashOffset, Random.Range(0.0f, 1.0f));
+        //Speed 값을 불규칙하게 변경
         animator.SetFloat(hashWalkSpeed, Random.Range(1.0f, 1.2f));
     }
 
@@ -142,6 +143,8 @@ public class EnemyAI : MonoBehaviour {
                         enemyFire.isFire = true;
                     break;
                 case State.DIE:
+                    this.gameObject.tag = "Untagged";
+
                     isDie = true;
                     enemyFire.isFire = false;
                     //순찰 및 추적을 정지
@@ -167,8 +170,8 @@ public class EnemyAI : MonoBehaviour {
     {
         moveAgent.Stop();
         enemyFire.isFire = false;
+        //모드 코루틴 함수를 종료시킴
         StopAllCoroutines();
-
         animator.SetTrigger(hashPlayerDie);
     }
 }
