@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
     public int maxEnemy = 10;
     //게임 종료 여부를 판단할 변수
     public bool isGameOver = false;
+    // 게임 일시정지
+    public bool isPaused;
 
     //싱글턴에 접근하기 위한 Static 변수 선언
     public static GameManager instance = null;
@@ -107,6 +109,24 @@ public class GameManager : MonoBehaviour
             obj.SetActive(false);
             //리스트에 생성한 총알 추가
             bulletPool.Add(obj);
+        }
+    }
+
+    // 일시 정지 버튼 클릭 시 호출할 함수
+    public void OnPauseClick()
+    {
+        // 일시 정지 값을 토글시킴
+        isPaused = !isPaused;
+        // Time Scale이 0이면 정지, 1이면 정상 속도
+        Time.timeScale = (isPaused) ? 0.0f : 1.0f;
+        // 주인공 객체 추출
+        var playerObj = GameObject.FindGameObjectWithTag("PLAYER");
+        // 주인공 캐릭터에 추가된 모든 스크립트를 추출함
+        var scripts = playerObj.GetComponents<MonoBehaviour>();
+        // 주인공 캐릭터의 모든 스크립트를 활성화/비활성화
+        foreach (var script in scripts)
+        {
+            script.enabled = !isPaused;
         }
     }
 }
