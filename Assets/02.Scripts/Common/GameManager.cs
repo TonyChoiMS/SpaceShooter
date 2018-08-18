@@ -128,5 +128,7 @@ public class GameManager : MonoBehaviour
         {
             script.enabled = !isPaused;
         }
+        var canvasGroup = GameObject.Find("Panel - Weapon").GetComponent<CanvasGroup>();
+        canvasGroup.blocksRaycasts = !isPaused;
     }
 }
