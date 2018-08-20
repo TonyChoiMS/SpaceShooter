@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
     //오브젝트 풀에 생성할 개수
     public int maxPool = 10;
     public List<GameObject> bulletPool = new List<GameObject>();
+    public CanvasGroup inventoryCG;
 
     void Awake()
     {
@@ -48,6 +49,7 @@ public class GameManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        OnInventoryOpen(false);     // 인벤토리 비활성화
         //하이러키 뷰의 SpawnPointGroup을 찾아 하위에 있는 모든 Transform 컴포넌트를 찾아옴
         points = GameObject.Find("SpawnPointGroup").GetComponentsInChildren<Transform>();
         if (points.Length > 0)
@@ -130,5 +132,12 @@ public class GameManager : MonoBehaviour
         }
         var canvasGroup = GameObject.Find("Panel - Weapon").GetComponent<CanvasGroup>();
         canvasGroup.blocksRaycasts = !isPaused;
+    }
+
+    public void OnInventoryOpen(bool isOpened)
+    {
+        inventoryCG.alpha = (isOpened) ? 1.0f : 0.0f;
+        inventoryCG.interactable = isOpened;
+        inventoryCG.blocksRaycasts = isOpened;
     }
 }
