@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.07264292, g: 0.050905377, b: 0.034408353, a: 1}
+  m_IndirectSpecularColor: {r: 0.070204206, g: 0.064328164, b: 0.059004407, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -456,6 +456,7 @@ GameObject:
   - component: {fileID: 169994903}
   - component: {fileID: 169994902}
   - component: {fileID: 169994901}
+  - component: {fileID: 169994904}
   m_Layer: 5
   m_Name: ItemHp
   m_TagString: Untagged
@@ -477,10 +478,10 @@ RectTransform:
   m_Father: {fileID: 938010806}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 29.5, y: -29}
+  m_SizeDelta: {x: 45, y: 45}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &169994901
 MonoBehaviour:
@@ -526,6 +527,17 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 169994899}
+--- !u!225 &169994904
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 169994899}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &170076733
 GameObject:
   m_ObjectHideFlags: 0
@@ -4433,6 +4445,7 @@ GameObject:
   - component: {fileID: 1168111303}
   - component: {fileID: 1168111302}
   - component: {fileID: 1168111301}
+  - component: {fileID: 1168111304}
   m_Layer: 5
   m_Name: ItemShock
   m_TagString: Untagged
@@ -4454,10 +4467,10 @@ RectTransform:
   m_Father: {fileID: 938010806}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 129.5, y: -29}
+  m_SizeDelta: {x: 45, y: 45}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1168111301
 MonoBehaviour:
@@ -4503,6 +4516,17 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1168111299}
+--- !u!225 &1168111304
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1168111299}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1001 &1171393599
 Prefab:
   m_ObjectHideFlags: 0
@@ -4573,6 +4597,7 @@ GameObject:
   - component: {fileID: 1185094117}
   - component: {fileID: 1185094116}
   - component: {fileID: 1185094115}
+  - component: {fileID: 1185094118}
   m_Layer: 5
   m_Name: ItemSpeed
   m_TagString: Untagged
@@ -4594,10 +4619,10 @@ RectTransform:
   m_Father: {fileID: 938010806}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 79.5, y: -29}
+  m_SizeDelta: {x: 45, y: 45}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1185094115
 MonoBehaviour:
@@ -4643,6 +4668,17 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1185094113}
+--- !u!225 &1185094118
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1185094113}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1217694288
 GameObject:
   m_ObjectHideFlags: 0
@@ -6664,6 +6700,7 @@ GameObject:
   - component: {fileID: 1951219694}
   - component: {fileID: 1951219693}
   - component: {fileID: 1951219692}
+  - component: {fileID: 1951219695}
   m_Layer: 5
   m_Name: ItemGrenade
   m_TagString: Untagged
@@ -6685,10 +6722,10 @@ RectTransform:
   m_Father: {fileID: 938010806}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 179.5, y: -29}
+  m_SizeDelta: {x: 45, y: 45}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1951219692
 MonoBehaviour:
@@ -6734,6 +6771,17 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1951219690}
+--- !u!225 &1951219695
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1951219690}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1958524782
 GameObject:
   m_ObjectHideFlags: 0
