@@ -9,7 +9,7 @@ public class Damage : MonoBehaviour
     private const string bulletTag = "BULLET";
     private const string enemyTag = "ENEMY";
 
-    private float initHp = 100.0f;
+    private float initHp;
     public float currHp;
     //BloodScreen 텍스처를 저장하기 위한 변수
     public Image bloodScreen;
@@ -26,6 +26,7 @@ public class Damage : MonoBehaviour
 
     void Start()
     {
+        initHp = GameManager.instance.gameData.hp;
         currHp = initHp;
 
         //생명 게이지의 초기 색상을 설정
@@ -94,5 +95,16 @@ public class Damage : MonoBehaviour
         hpBar.color = currColor;
         //HpBar의 크기 변경
         hpBar.fillAmount = (currHp / initHp);
+    }
+
+    private void OnEnable()
+    {
+        GameManager.OnItemChange += UpdateSetup;
+    }
+
+    void UpdateSetup()
+    {
+        initHp = GameManager.instance.gameData.hp;
+        currHp += GameManager.instance.gameData.hp - currHp;
     }
 }

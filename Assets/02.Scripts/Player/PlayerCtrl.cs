@@ -42,6 +42,8 @@ public class PlayerCtrl : MonoBehaviour {
         //Animation 컴포넌트의 애니메이션 클립을 지정하고 실행
         anim.clip = playerAnim.idle;
         anim.Play();
+
+        moveSpeed = GameManager.instance.gameData.speed;
 	}
 	// Update is called once per frame
 	void Update ()
@@ -84,4 +86,14 @@ public class PlayerCtrl : MonoBehaviour {
             anim.CrossFade(playerAnim.idle.name, 0.3f); //정지 시 Idle애니메이션
         }
 	}
+
+    private void OnEnable()
+    {
+        GameManager.OnItemChange += UpdateSetup;
+    }
+
+    void UpdateSetup()
+    {
+        moveSpeed = GameManager.instance.gameData.speed;
+    }
 }

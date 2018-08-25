@@ -22,7 +22,7 @@ public class EnemyDamage : MonoBehaviour
     // 생명 수치에 따라 fillAmount 속성을 변경할 Image
     private Image hpBarImage;
 
-    void Start()
+    void Start()                     
     {
         //혈흔 효과 프리팹을 로드
         bloodEffect = Resources.Load<GameObject>("BulletImpactFleshBigEffect");
@@ -63,6 +63,9 @@ public class EnemyDamage : MonoBehaviour
                 //적 캐릭터의 상태를 DIE로 변경
                 GetComponent<EnemyAI>().state = EnemyAI.State.DIE;
                 hpBarImage.GetComponentsInParent<Image>()[1].color = Color.clear;
+
+                GameManager.instance.IncKillCount();
+                GetComponent<CapsuleCollider>().enabled = false;
             }
         }
     }

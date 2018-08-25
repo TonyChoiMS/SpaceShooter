@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using DataInfo;
 
 public class GameManager : MonoBehaviour
 {
@@ -29,6 +31,18 @@ public class GameManager : MonoBehaviour
     public List<GameObject> bulletPool = new List<GameObject>();
     public CanvasGroup inventoryCG;
 
+    // Player Kill count
+    //[HideInInspector] public int killCount;
+    [Header("GameData")]
+    // kill count text
+    public Text killCountTxt;
+    private DataManager dataManager;
+    public GameData gameData;
+
+    public delegate void ItemChangeDelegate();
+    public static event ItemChangeDelegate OnItemChange;
+                                           
+
     void Awake()
     {
         if (instance == null)
@@ -42,8 +56,98 @@ public class GameManager : MonoBehaviour
         }
         //다른 씬으로 넘어가더라도 삭제하지 않고 유지함
         DontDestroyOnLoad(this.gameObject);
+
+        dataManager = GetComponent<DataManager>();
+        dataManager.Initialize();
+        // load game data
+        LoadGameData();
         //오브젝트 풀링 생성함수 호출
         CreatePooling();
+    }
+
+    void SaveGameData()
+    {
+        dataManager.Save(gameData);
+    }
+
+    public void AddItem(Item item)
+    {
+        if (gameData.equipItem.Contains(item)) return;
+
+        gameData.equipItem.Add(item);
+
+        switch(item.itemType)
+        {
+            case Item.ItemType.HP:
+                if (item.itemCalc == Item.ItemCalc.INC_VALUE)
+                    gameData.hp += item.value;
+                else
+                    gameData.hp += gameData.hp * item.value;
+                break;
+            case Item.ItemType.DAMAGE:
+                if (item.itemCalc == Item.ItemCalc.INC_VALUE)
+                    gameData.damage += item.value;
+                else
+                    gameData.damage += gameData.damage * item.value;
+                break;
+            case Item.ItemType.SPPED:
+                if (item.itemCalc == Item.ItemCalc.INC_VALUE)
+                    gameData.speed += item.value;
+                else
+                    gameData.speed += gameData.speed * item.value;
+                break;
+
+            case Item.ItemType.GRENADE:
+                break;
+        }
+    }
+
+    public void RemoveItem(Item item)
+    {
+        gameData.equipItem.Remove(item);
+
+        switch(item.itemType)
+        {
+            case Item.ItemType.HP:
+                if (item.itemCalc == Item.ItemCalc.INC_VALUE)
+                    gameData.hp -= item.value;
+                else
+                    gameData.hp = gameData.hp / (1.0f + item.value);
+                break;
+
+            case Item.ItemType.DAMAGE:
+                if (item.itemCalc == Item.ItemCalc.INC_VALUE)
+                    gameData.damage -= item.value;
+                else
+                    gameData.damage = gameData.damage / (1.0f + item.value);
+                break;
+
+            case Item.ItemType.SPEED:
+                if (item.itemCalc == Item.ItemCalc.INC_VALUE)
+                    gameData.speed -= item.value;
+                else
+                    gameData.speed = gameData.speed / (1.0f + item.value);
+                break;
+
+            case Item.ItemType.ItemType.GRENADE:
+                break;
+        }
+        OnItemChange();
+    }
+
+    // Load Initialize Game Data
+    void LoadGameData()
+    {
+        GameData data = dataManager.Load();
+
+        gameData.hp = data.hp;
+        gameData.damage = data.damage;
+        gameData.speed = data.speed;
+        gameData.killCount = data.killCount;
+        gameData.equipItem = data.equipItem;
+        //killCount = PlayerPrefs.GetInt("KILL_COUNT", 0);
+
+        killCountTxt.text = "Kill " + gameData.killCount.ToString("0000"); 
     }
 
     // Use this for initialization
@@ -139,5 +243,19 @@ public class GameManager : MonoBehaviour
         inventoryCG.alpha = (isOpened) ? 1.0f : 0.0f;
         inventoryCG.interactable = isOpened;
         inventoryCG.blocksRaycasts = isOpened;
+    }
+
+    // call function when player kill enemy
+    public void IncKillCount()
+    {
+        ++gameData.killCount;
+        killCountTxt.text = "KILL " + gameData.killCount.ToString("0000");
+        // save kill count
+        //PlayerPrefs.SetInt("KILL_COUNT", killCount);
+    }
+
+    private void OnApplicationQuit()
+    {
+        SaveGameData();
     }
 }
