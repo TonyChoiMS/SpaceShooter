@@ -41,7 +41,10 @@ public class GameManager : MonoBehaviour
 
     public delegate void ItemChangeDelegate();
     public static event ItemChangeDelegate OnItemChange;
-                                           
+
+    // SlotList 게임오브젝트를 저장할 변수
+    private GameObject slotList;
+    public GameObject[] itemObjects;                                           
 
     void Awake()
     {
@@ -59,6 +62,9 @@ public class GameManager : MonoBehaviour
 
         dataManager = GetComponent<DataManager>();
         dataManager.Initialize();
+
+        // 인벤토리에 추가된 아이템을 검색하기 위해 SlotList 게임오브젝트 추출
+        slotList = inventoryCG.transform.Find("SlotList").gameObject;
         // load game data
         LoadGameData();
         //오브젝트 풀링 생성함수 호출
@@ -90,7 +96,7 @@ public class GameManager : MonoBehaviour
                 else
                     gameData.damage += gameData.damage * item.value;
                 break;
-            case Item.ItemType.SPPED:
+            case Item.ItemType.SPEED:
                 if (item.itemCalc == Item.ItemCalc.INC_VALUE)
                     gameData.speed += item.value;
                 else
@@ -146,6 +152,11 @@ public class GameManager : MonoBehaviour
         gameData.killCount = data.killCount;
         gameData.equipItem = data.equipItem;
         //killCount = PlayerPrefs.GetInt("KILL_COUNT", 0);
+        // 보유한 아이템이 있을 때만 호출
+        if (gameData.equipItem.Count > 0)
+        {
+            InventorySetup();
+        }
 
         killCountTxt.text = "Kill " + gameData.killCount.ToString("0000"); 
     }
@@ -159,6 +170,34 @@ public class GameManager : MonoBehaviour
         if (points.Length > 0)
         {
             StartCoroutine(this.CreateEnemy());
+        }
+    }
+
+    void InventorySetup()
+    {
+        // SlotList 하위에 있는 모든 Slot을 추출
+        var slots = slotList.GetComponentsInChildren<Transform>();
+
+        // 보유한 아이템의 개수만큼 반복
+        for (int i = 0; i < gameData.equipItem.Count; i++)
+        {
+            // 인벤토리 UI에 있는 Slot 개수만큼 반복
+            for (int j = 0; j < slots.Length; j++)
+            {
+                // Slot 하위에 다른 아이템이 있으면 다음 인덱스로 넘어감
+                if (slots[j].childCount > 0) continue;
+
+                // 보유한 아이템의 종류에 따라 인덱스를 추출
+                int itemIndex = (int)gameData.equipItem[i].itemType;
+
+                // 아이템의 부모를 Slot 게임오브젝트로 변경
+                itemObjects[itemIndex].GetComponent<Transform>().SetParent(slots[j]);
+                // 아이템의 ItemInfo 클래스의 itemData에 로드한 데이터 값을 저장
+                itemObjects[itemIndex].GetComponent<ItemInfo>().itemData = gameData.equipItem[i];
+
+                // 아이템을 Slot에 추가하면 바깥 for 구문으로 빠져나감
+                break;
+            }
         }
     }
 
