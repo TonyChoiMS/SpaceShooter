@@ -60,6 +60,10 @@ public class FireCtrl : MonoBehaviour
     public Sprite[] weaponIcons;
     // 교체할 무기 이미지 UI
     public Image weaponImage;
+    private int enemyLayer;
+    private bool isFire = false;
+    private float nextFire;
+    public float fireRate = 0.1f;
 
     void Start()
     {
@@ -69,13 +73,42 @@ public class FireCtrl : MonoBehaviour
         _audio = GetComponent<AudioSource>();
         //Shake 스크립트를 추출
         shake = GameObject.Find("CameraRig").GetComponent<Shake>();
+
+        enemyLayer = LayerMask.NameToLayer("ENEMY");
     }
 
     void Update()
     {
+        Debug.DrawRay(firePos.position, firePos.forward * 20.0f, Color.green);
         // UI를 눌러도 충알이 발사되는 것을 방지.
         if (EventSystem.current.IsPointerOverGameObject()) return;
 
+        RaycastHit hit;
+
+        if (Physics.Raycast(firePos.position
+                            , firePos.forward
+                            , out hit
+                            , 20.0f
+                            , 1 << enemyLayer))
+            isFire = true;
+        else
+            isFire = false;
+
+        if (!isReloading && isFire)
+        {
+            if (Time.time > nextFire)
+            {
+                --remainingBullet;
+                Fire();
+
+                if (remainingBullet == 0)
+                {
+                    StartCoroutine(Reloading());
+                }
+
+                nextFire = Time.time + fireRate;
+            }
+        }
         //마우스 왼쪽 버튼을 클릭했을 때 Fire 함수 호출
         if (!isReloading && Input.GetMouseButtonDown(0))
         {
