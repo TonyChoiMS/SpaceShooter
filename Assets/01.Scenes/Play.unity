@@ -3725,8 +3725,8 @@ RectTransform:
   m_Children:
   - {fileID: 169994900}
   - {fileID: 1185094114}
-  - {fileID: 1168111300}
   - {fileID: 1951219691}
+  - {fileID: 1168111300}
   m_Father: {fileID: 1217694289}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4541,7 +4541,7 @@ RectTransform:
   m_Children:
   - {fileID: 479022417}
   m_Father: {fileID: 938010806}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -5103,8 +5103,13 @@ MonoBehaviour:
   maxPool: 10
   bulletPool: []
   inventoryCG: {fileID: 1217694292}
-  killCount: 0
   killCountTxt: {fileID: 876767264}
+  gameData: {fileID: 11400000, guid: f1e10face9c2f4e95a784a5635224065, type: 2}
+  itemObjects:
+  - {fileID: 169994899}
+  - {fileID: 1185094113}
+  - {fileID: 1951219690}
+  - {fileID: 1168111299}
 --- !u!4 &1384404702
 Transform:
   m_ObjectHideFlags: 0
@@ -7012,7 +7017,7 @@ RectTransform:
   m_Children:
   - {fileID: 1101784266}
   m_Father: {fileID: 938010806}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}

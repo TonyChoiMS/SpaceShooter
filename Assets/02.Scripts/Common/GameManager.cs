@@ -37,7 +37,8 @@ public class GameManager : MonoBehaviour
     // kill count text
     public Text killCountTxt;
     private DataManager dataManager;
-    public GameData gameData;
+    //public GameData gameData;
+    public GameDataObject gameData;     // ScriptableObject
 
     public delegate void ItemChangeDelegate();
     public static event ItemChangeDelegate OnItemChange;
@@ -73,7 +74,8 @@ public class GameManager : MonoBehaviour
 
     void SaveGameData()
     {
-        dataManager.Save(gameData);
+        //dataManager.Save(gameData);
+        UnityEditor.EditorUtility.SetDirty(gameData);
     }
 
     public void AddItem(Item item)
@@ -106,6 +108,10 @@ public class GameManager : MonoBehaviour
             case Item.ItemType.GRENADE:
                 break;
         }
+
+        UnityEditor.EditorUtility.SetDirty(gameData);
+
+        OnItemChange();
     }
 
     public void RemoveItem(Item item)
@@ -135,23 +141,27 @@ public class GameManager : MonoBehaviour
                     gameData.speed = gameData.speed / (1.0f + item.value);
                 break;
 
-            case Item.ItemType.ItemType.GRENADE:
+            case Item.ItemType.GRENADE:
                 break;
         }
+
+        UnityEditor.EditorUtility.SetDirty(gameData);
+
         OnItemChange();
     }
 
     // Load Initialize Game Data
     void LoadGameData()
     {
-        GameData data = dataManager.Load();
+        //GameData data = dataManager.Load();
 
-        gameData.hp = data.hp;
-        gameData.damage = data.damage;
-        gameData.speed = data.speed;
-        gameData.killCount = data.killCount;
-        gameData.equipItem = data.equipItem;
+        //gameData.hp = data.hp;
+        //gameData.damage = data.damage;
+        //gameData.speed = data.speed;
+        //gameData.killCount = data.killCount;
+        //gameData.equipItem = data.equipItem;
         //killCount = PlayerPrefs.GetInt("KILL_COUNT", 0);
+
         // 보유한 아이템이 있을 때만 호출
         if (gameData.equipItem.Count > 0)
         {
