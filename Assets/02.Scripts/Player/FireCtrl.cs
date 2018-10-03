@@ -61,6 +61,11 @@ public class FireCtrl : MonoBehaviour
     // 교체할 무기 이미지 UI
     public Image weaponImage;
     private int enemyLayer;
+    // obstacle layer variable
+    private int obstacleLayer;
+    // layermask variable for bitwise operation
+    private int layerMask;
+
     private bool isFire = false;
     private float nextFire;
     public float fireRate = 0.1f;
@@ -75,6 +80,10 @@ public class FireCtrl : MonoBehaviour
         shake = GameObject.Find("CameraRig").GetComponent<Shake>();
 
         enemyLayer = LayerMask.NameToLayer("ENEMY");
+        // extraction obstacle layer
+        obstacleLayer = LayerMask.NameToLayer("OBSTACLE");
+        // layermask bitwise operation
+        layerMask = 1 << obstacleLayer | 1 << enemyLayer;
     }
 
     void Update()
@@ -89,8 +98,8 @@ public class FireCtrl : MonoBehaviour
                             , firePos.forward
                             , out hit
                             , 20.0f
-                            , 1 << enemyLayer))
-            isFire = true;
+                            , layerMask))
+            isFire = (hit.collider.CompareTag("ENEMY"));
         else
             isFire = false;
 
