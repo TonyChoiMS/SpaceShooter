@@ -10,6 +10,13 @@ public class FollowCam : MonoBehaviour
     public float distance = 5.0f; //추적 대상과의 거리
     public float height = 4.0f; //추적 대상과의 높이
     public float targetOffset = 2.0f; //추적 좌표의 오프셋
+
+    [Header("Wall Obstacle Setting")]
+    public float heightAboveWall = 7.0f;    // Camera height
+    public float colliderRaidus = 1.8f;     // Camera Collider Raidus
+    public float overDamping = 5.0f;        // Camera move speed
+    private float originHeight;             // Origin Camera Height
+
     //CameraRig의 Transfrom 컴포넌트
     private Transform tr;
 
@@ -17,6 +24,26 @@ public class FollowCam : MonoBehaviour
     {
         //CameraRig의 Transform 컴포넌트 추출
         tr = GetComponent<Transform>();
+        // save origin camera height
+        originHeight = height;
+    }
+
+    void Update()
+    {
+        if (Physics.CheckSphere(tr.position, colliderRaidus))
+        {
+            // Camera height up softly to lerp
+            height = Mathf.Lerp(height
+                                , heightAboveWall
+                                , Time.deltaTime * overDamping);
+        }
+        else
+        {
+            // Camera height down softly to lerp
+            height = Mathf.Lerp(height
+                                , originHeight
+                                , Time.deltaTime * overDamping);
+        }
     }
 
     //주인공 캐릭터의 이동 로직이 완료된 후 처리하기 위해 LateUpdate에서 구현
@@ -49,5 +76,9 @@ public class FollowCam : MonoBehaviour
         Gizmos.DrawWireSphere(target.position + (target.up * targetOffset), 0.1f);
         //메인 카메라와 추적 지점 간의 선을 표시
         Gizmos.DrawLine(target.position + (target.up * targetOffset), transform.position);
+
+        // draw Camera collider
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, colliderRaidus);
     }
 }

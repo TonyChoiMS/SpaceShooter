@@ -33,6 +33,8 @@ public class EnemyAI : MonoBehaviour {
     private MoveAgent moveAgent;
     //총 발사를 제어하는 EnemyFire 클래스를 저장할 변수
     private EnemyFire enemyFire;
+    // fov class to view range and enemy tracking
+    private EnemyFOV enemyFOV;
 
     //애니메이터 컨트롤러에 정의한 파라미터의 해시값을 미리 추출
     private readonly int hashMove = Animator.StringToHash("IsMove");
@@ -58,6 +60,7 @@ public class EnemyAI : MonoBehaviour {
         moveAgent = GetComponent<MoveAgent>();
         //총 발사를 제어하는 EnemyFire 클래스를 추출
         enemyFire = GetComponent<EnemyFire>();
+        enemyFOV = GetComponent<EnemyFOV>();
 
         //코루틴의 지연시간 생성
         ws = new WaitForSeconds(0.3f);
@@ -85,6 +88,9 @@ public class EnemyAI : MonoBehaviour {
     //적 캐릭터의 상태를 검사하는 코루틴 함수
     IEnumerator CheckState()
     {
+        // wait for initliaze another script 
+        yield return new WaitForSeconds(1.0f);
+
         //적 캐릭터가 사망하기 전까지 도는 무한루프
         while (!isDie)
         {
@@ -95,9 +101,12 @@ public class EnemyAI : MonoBehaviour {
             //공격 사정거리 이내의 경우
             if (dist <= attackDist)
             {
-                state = State.ATTACK;
+                if (enemyFOV.isViewPlayer())
+                    state = State.ATTACK;
+                else
+                    state = State.TRACE;
             }//추적 사정거리 이내의 경우
-            else if (dist <= traceDist)
+            else if (enemyFOV.isTracePlayer())
             {
                 state = State.TRACE;
             }
