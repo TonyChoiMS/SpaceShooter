@@ -17,6 +17,12 @@ public class FollowCam : MonoBehaviour
     public float overDamping = 5.0f;        // Camera move speed
     private float originHeight;             // Origin Camera Height
 
+    [Header("Etc Obstacle Setting")]
+    // Camera Up Height
+    public float heightAboveObstacle = 12.0f;
+    // Raycast height offset to Player
+    public float castOffset = 1.0f;
+
     //CameraRig의 Transfrom 컴포넌트
     private Transform tr;
 
@@ -43,6 +49,29 @@ public class FollowCam : MonoBehaviour
             height = Mathf.Lerp(height
                                 , originHeight
                                 , Time.deltaTime * overDamping);
+        }
+
+        Vector3 castTarget = target.position + (target.up * castOffset);
+        Vector3 castDir = (castTarget - tr.position).normalized;
+        RaycastHit hit;
+
+        // catch obstacle 
+        if (Physics.Raycast(tr.position, castDir, out hit, Mathf.Infinity))
+        {
+            if (!hit.collider.CompareTag("PLAYER"))
+            {
+                // Up Camera
+                height = Mathf.Lerp(height
+                                    , heightAboveObstacle
+                                    , Time.deltaTime * overDamping);
+            }
+            else
+            {
+                // Down Camera
+                height = Mathf.Lerp(height
+                                    , originHeight
+                                    , Time.deltaTime * overDamping);
+            }
         }
     }
 
@@ -80,5 +109,8 @@ public class FollowCam : MonoBehaviour
         // draw Camera collider
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, colliderRaidus);
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(target.position + (target.up * castOffset), transform.position);
     }
 }
