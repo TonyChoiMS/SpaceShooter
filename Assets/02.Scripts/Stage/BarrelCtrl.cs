@@ -36,17 +36,33 @@ public class BarrelCtrl : MonoBehaviour {
     void Start()
     {
         //Rigidbody 컴포넌트를 추출해 저장
-        rb = GetComponent<Rigidbody>();
+        //rb = GetComponent<Rigidbody>();
         //MeshFilter 컴포넌트를 추출해 저장
-        meshFilter = GetComponent<MeshFilter>();
+        //meshFilter = GetComponent<MeshFilter>();
 
         //MeshRenderer 컴포넌트를 추출해 저장
-        _renderer = GetComponent<MeshRenderer>();
+        //_renderer = GetComponent<MeshRenderer>();
 
         //AudioSource 컴포넌트를 추출해 저장
-        _audio = GetComponent<AudioSource>();
+        //_audio = GetComponent<AudioSource>();
 
         //Shake 스크립트를 추출
+        //shake = GameObject.Find("CameraRig").GetComponent<Shake>();
+        StartCoroutine(GetShake());
+    }
+
+    // Initialize Class after LoadScene
+    IEnumerator GetShake()
+    {
+        while(!UnityEngine.SceneManagement.SceneManager.GetSceneByName("Play").isLoaded)
+        {
+            yield return null;
+        }
+        rb = GetComponent<Rigidbody>();
+        meshFilter = GetComponent<MeshFilter>();
+        _renderer = GetComponent<MeshRenderer>();
+        _audio = GetComponent<AudioSource>();
+
         shake = GameObject.Find("CameraRig").GetComponent<Shake>();
 
         //난수를 발생시켜 불규칙적인 텍스처를 적용

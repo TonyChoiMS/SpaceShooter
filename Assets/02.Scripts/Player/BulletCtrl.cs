@@ -12,12 +12,16 @@ public class BulletCtrl : MonoBehaviour
     private Transform tr;
     private Rigidbody rb;
     private TrailRenderer trail;
+
+
     void Awake()
     {
         //컴포넌트 할당
         tr = GetComponent<Transform>();
         rb = GetComponent<Rigidbody>();
         trail = GetComponent<TrailRenderer>();
+
+        //불러온 데이터 값을 damage에 적용
         damage = GameManager.instance.gameData.damage;
     }
 
@@ -29,7 +33,7 @@ public class BulletCtrl : MonoBehaviour
 
     void UpdateSetup()
     {
-        damage = GameManager.instance.gameData.damage;    
+        damage = GameManager.instance.gameData.damage;
     }
 
     void OnDisable()

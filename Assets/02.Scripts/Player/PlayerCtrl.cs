@@ -32,6 +32,16 @@ public class PlayerCtrl : MonoBehaviour {
     //Animation 컴포넌트를 저장하기 위한 변수
     public Animation anim;
 
+    void OnEnable()
+    {
+        GameManager.OnItemChange += UpdateSetup;
+    }
+
+    void UpdateSetup()
+    {
+        moveSpeed = GameManager.instance.gameData.speed;
+    }
+
 	void Start ()
 	{
         //스크립트가 실행된 후 처음 수행되는 Start 함수에서 Transform 컴포넌트를 할당
@@ -43,8 +53,10 @@ public class PlayerCtrl : MonoBehaviour {
         anim.clip = playerAnim.idle;
         anim.Play();
 
+        //불러온 데이터 값을 moveSpeed에 적용
         moveSpeed = GameManager.instance.gameData.speed;
 	}
+
 	// Update is called once per frame
 	void Update ()
 	{
@@ -86,14 +98,4 @@ public class PlayerCtrl : MonoBehaviour {
             anim.CrossFade(playerAnim.idle.name, 0.3f); //정지 시 Idle애니메이션
         }
 	}
-
-    private void OnEnable()
-    {
-        GameManager.OnItemChange += UpdateSetup;
-    }
-
-    void UpdateSetup()
-    {
-        moveSpeed = GameManager.instance.gameData.speed;
-    }
 }
